@@ -1,0 +1,49 @@
+erDiagram
+    farmers ||--o{ coffee_lots : supplies
+    collection_points ||--o{ coffee_lots : receives
+    coffee_lots ||--o| grading_results : has_grade
+    coffee_lots ||--o| shipment_lots : allocated_in
+    export_shipments ||--o{ shipment_lots : includes
+    farmers {
+        bigint farmer_id PK
+        varchar farmer_code UK
+        varchar full_name
+        varchar district
+        varchar phone
+    }
+    collection_points {
+        bigint collection_point_id PK
+        varchar point_code UK
+        varchar point_name
+        varchar district
+    }
+    coffee_lots {
+        bigint lot_id PK
+        varchar lot_code UK
+        bigint farmer_id FK
+        bigint collection_point_id FK
+        date received_date
+        numeric weight_kg
+        varchar status
+    }
+    grading_results {
+        bigint grade_id PK
+        bigint lot_id FK,UK
+        date graded_on
+        numeric quality_score
+        varchar grade_label
+        varchar grader_name
+        text notes
+    }
+    export_shipments {
+        bigint shipment_id PK
+        varchar shipment_code UK
+        varchar destination
+        date planned_date
+        varchar shipment_status
+    }
+    shipment_lots {
+        bigint shipment_id PK,FK
+        bigint lot_id PK,FK,UK
+        numeric allocated_kg
+    }
